@@ -72,10 +72,10 @@ export const AIP2PSection: React.FC = () => {
                         <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Neural_P2P_Engine v2.4</span>
                     </div>
                     <div className="space-y-1.5 font-mono text-[11px]">
-                        <p className="text-emerald-400">>> Scanning global liquidity nodes...</p>
-                        <p className="text-brand-400">>> Matching buy order: 5,000 USDT</p>
+                        <p className="text-emerald-400">{'>> Scanning global liquidity nodes...'}</p>
+                        <p className="text-brand-400">{'>> Matching buy order: 5,000 USDT'}</p>
                         <div className="flex items-center gap-2">
-                            <p className="text-slate-400">>> Node verified</p>
+                            <p className="text-slate-400">{'>> Node verified'}</p>
                             <span className="text-emerald-500"> [OK]</span>
                         </div>
                         <motion.p 
@@ -83,7 +83,7 @@ export const AIP2PSection: React.FC = () => {
                             transition={{ duration: 0.5, repeat: 999999 }}
                             className="text-white bg-brand-500/20 px-1 inline-block"
                         >
-                            >> Executing Autonomous Handshake_
+                            {'>> Executing Autonomous Handshake_'}
                         </motion.p>
                     </div>
                 </motion.div>
