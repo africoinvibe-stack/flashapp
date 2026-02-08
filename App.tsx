@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Features } from './components/Features';
 import { AIP2PSection } from './components/AIP2PSection';
+import { WordsOnMarble } from './components/WordsOnMarble'; // New import
 import { HowItWorks } from './components/HowItWorks';
 import { AboutUs } from './components/AboutUs';
 import { ContactUs } from './components/ContactUs';
@@ -117,6 +118,7 @@ function App() {
                     <HowItWorks />
                     <AgentCTA onSignUp={handlePersonalEntry} />
                     <AboutUs />
+                    <WordsOnMarble /> {/* Added New Section */}
                     <ContactUs />
                     <Waitlist />
                   </main>
