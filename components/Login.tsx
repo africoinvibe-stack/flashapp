@@ -1,37 +1,48 @@
 import React, { useState } from 'react';
 import { AuthLayout } from './AuthLayout';
 import { Button } from './ui/Button';
-import { Mail, Lock, Eye, EyeOff, Github, Play } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Github, Play, Briefcase, User } from 'lucide-react';
 
 interface LoginProps {
     onBack: () => void;
     onSignUp: () => void;
-    onLoginSuccess?: () => void;
+    onLoginSuccess?: (isMerchant: boolean) => void;
+    onDemo?: (isMerchant: boolean) => void;
+    initialAccountType?: 'personal' | 'business';
 }
 
-export const Login: React.FC<LoginProps> = ({ onBack, onSignUp, onLoginSuccess }) => {
+export const Login: React.FC<LoginProps> = ({ onBack, onSignUp, onLoginSuccess, onDemo, initialAccountType = 'personal' }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [accountType, setAccountType] = useState<'personal' | 'business'>(initialAccountType);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulate API call
         if (onLoginSuccess) {
-            onLoginSuccess();
-        }
-    };
-
-    const handleDemoLogin = () => {
-        if (onLoginSuccess) {
-            onLoginSuccess();
+            onLoginSuccess(accountType === 'business');
         }
     };
 
     return (
         <AuthLayout 
             title="Welcome Back" 
-            subtitle="Enter your credentials to access your account" 
+            subtitle={accountType === 'business' ? "Manage your store's crypto payments" : "Enter your credentials to access your account"} 
             onBack={onBack}
         >
+            <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 mb-8">
+                <button 
+                    onClick={() => setAccountType('personal')}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all ${accountType === 'personal' ? 'bg-brand-500 text-slate-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                >
+                    <User size={16} /> Personal
+                </button>
+                <button 
+                    onClick={() => setAccountType('business')}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all ${accountType === 'business' ? 'bg-brand-500 text-slate-950 shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                >
+                    <Briefcase size={16} /> Business
+                </button>
+            </div>
+
             <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="space-y-1">
                     <label className="text-xs font-medium text-slate-300 ml-1">Email Address</label>
@@ -75,14 +86,14 @@ export const Login: React.FC<LoginProps> = ({ onBack, onSignUp, onLoginSuccess }
 
                 <div className="pt-2">
                     <Button type="submit" className="w-full shadow-lg shadow-brand-500/20" variant="secondary" size="lg">
-                        Sign In
+                        Sign In as {accountType === 'business' ? 'Merchant' : 'User'}
                     </Button>
                 </div>
             </form>
 
             <div className="mt-4">
                 <button 
-                    onClick={handleDemoLogin}
+                    onClick={() => onDemo?.(accountType === 'business')}
                     className="w-full py-3.5 rounded-xl border border-brand-500/30 bg-brand-500/5 text-brand-400 font-bold flex items-center justify-center gap-2 hover:bg-brand-500/10 hover:border-brand-500/50 transition-all group"
                 >
                     <div className="w-6 h-6 rounded-full bg-brand-400/20 flex items-center justify-center group-hover:scale-110 transition-transform">

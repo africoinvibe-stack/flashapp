@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, EyeOff, Plus, ArrowUpRight, Repeat, Wallet, ArrowDownLeft, CreditCard, ChevronRight, X, QrCode, Copy, ArrowLeft, Smartphone, Wifi, Tv, Gamepad2, ChevronLeft, TrendingUp, Zap, Hexagon, CircleDollarSign, History, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, Plus, ArrowUpRight, Repeat, Wallet, ArrowDownLeft, CreditCard, ChevronRight, X, QrCode, Copy, ArrowLeft, Smartphone, Wifi, Tv, Gamepad2, ChevronLeft, TrendingUp, Zap, Hexagon, CircleDollarSign, History, ArrowRight, SmartphoneNfc, PlusCircle } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -49,7 +49,6 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
         { id: 4, title: 'Starbucks Coffee', amount: '-$5.50', date: 'Yesterday', icon: '☕️', type: 'debit' },
     ];
 
-    // Default Wallet States (Futuristic Config)
     const walletConfig = {
         ngn: { 
             balance: '8,450,200.00', 
@@ -99,7 +98,6 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
             )
         },
         crypto: { 
-            // BTC Default Data
             balance: tokens[0].balance, 
             currency: tokens[0].symbol, 
             label: tokens[0].name, 
@@ -127,28 +125,28 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
         { 
             id: 1,
             title: "Get Metal Card", 
-            desc: "Upgrade to Flash Metal for 2% cashback and higher limits.", 
+            desc: "Upgrade to Flash Metal for 2% cashback.", 
             color: "from-electric-600 to-electric-800",
             icon: <CreditCard className="text-white/80" size={24} />,
-            btn: "View Plans",
+            btn: "Plans",
             action: () => onChangeTab('cards')
         },
         { 
             id: 2,
-            title: "Virtual Dollar Card", 
-            desc: "Shop globally on Amazon, Netflix & Apple with zero restrictions.", 
+            title: "Dollar Card", 
+            desc: "Shop globally on Amazon & Netflix.", 
             color: "from-brand-600 to-brand-800",
             icon: <Wallet className="text-white/80" size={24} />,
-            btn: "Create Card",
+            btn: "Create",
              action: () => onChangeTab('cards')
         },
         { 
             id: 3,
-            title: "Pay Bills Instantly", 
-            desc: "Zero fees on Airtime and Data. Instant activation for Cable TV.", 
+            title: "Instant Bills", 
+            desc: "Zero fees on Airtime and Data bundles.", 
             color: "from-emerald-600 to-teal-800",
             icon: <Smartphone className="text-white/80" size={24} />,
-            btn: "Pay Now",
+            btn: "Pay",
              action: () => onChangeTab('bills')
         }
     ];
@@ -162,17 +160,12 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
 
     const handleWalletChange = (wallet: 'usd' | 'ngn' | 'crypto') => {
         setActiveWallet(wallet);
-        // Reset selection when changing wallets, defaults to BTC for crypto
         setSelectedToken(null);
         setRecipient('');
         setAmount('');
     };
 
-    // Determine current display values based on selection
     const activeConfig = walletConfig[activeWallet];
-    
-    // Override display if a token is explicitly selected from the list (only applicable in crypto mode)
-    // If no token selected in crypto mode, walletConfig.crypto (BTC) is used.
     const displayData = (activeWallet === 'crypto' && selectedToken) ? {
         balance: selectedToken.balance,
         currency: selectedToken.symbol,
@@ -188,183 +181,111 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
     };
 
     return (
-        <div className="space-y-6 relative">
+        <div className="space-y-6 relative overflow-x-hidden">
              {/* Greeting Header */}
-            <div className="flex items-center justify-between pb-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2">
                 <div>
-                    <h2 className="text-2xl font-display font-bold text-white mb-1">
-                        Good Morning, <span className="text-brand-400">@johndoe</span>
+                    <h2 className="text-xl sm:text-2xl font-display font-bold text-white mb-1">
+                        Hi, <span className="text-brand-400">@johndoe</span>
                     </h2>
-                    <p className="text-slate-400 text-sm">Here's what's happening with your wallet today.</p>
+                    <p className="text-slate-400 text-xs sm:text-sm">Activity summary for your wallet.</p>
+                </div>
+                <div className="w-full sm:w-auto">
+                   <button 
+                    onClick={() => onChangeTab('pay')}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-500 text-slate-950 rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-widest shadow-lg shadow-brand-500/20 active:scale-95 transition-transform"
+                   >
+                       <SmartphoneNfc size={16} /> Flash Pay
+                   </button>
                 </div>
             </div>
 
-            {/* Receive Modal Overlay */}
+            {/* Receive Modal (Simplified mobile view) */}
             <AnimatePresence>
                 {showReceiveModal && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-                        <motion.div 
-                            initial={{ opacity: 0 }} 
-                            animate={{ opacity: 1 }} 
-                            exit={{ opacity: 0 }}
-                            onClick={() => setShowReceiveModal(false)}
-                            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-                        />
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="bg-dark-900 border border-white/10 p-6 rounded-3xl w-full max-w-sm relative z-10 shadow-2xl"
-                        >
-                            <button onClick={() => setShowReceiveModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white">
-                                <X size={20} />
-                            </button>
-                            <h3 className="text-xl font-bold text-white mb-6 text-center">Receive {displayData.currency}</h3>
-                            <div className="bg-white p-4 rounded-xl mx-auto w-48 h-48 mb-6">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowReceiveModal(false)} className="absolute inset-0 bg-black/90 backdrop-blur-md" />
+                        <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="bg-dark-900 border border-white/10 p-6 rounded-[2rem] w-full max-w-sm relative z-10 shadow-2xl">
+                            <button onClick={() => setShowReceiveModal(false)} className="absolute top-4 right-4 text-slate-400 p-2 hover:bg-white/5 rounded-full"><X size={20} /></button>
+                            <h3 className="text-lg font-bold text-white mb-6 text-center">Receive {displayData.currency}</h3>
+                            <div className="bg-white p-4 rounded-2xl mx-auto w-40 h-40 sm:w-48 sm:h-48 mb-6 shadow-2xl">
                                 <QrCode className="w-full h-full text-black" />
                             </div>
-                            <div className="bg-dark-950 border border-white/10 rounded-xl p-3 flex items-center justify-between gap-2 mb-4">
-                                <span className="text-xs text-slate-400 truncate font-mono">0x71C...92F9</span>
-                                <button className="text-brand-400 hover:text-brand-300 p-2 hover:bg-white/5 rounded-lg transition-colors">
-                                    <Copy size={16} />
-                                </button>
+                            <div className="bg-dark-950 border border-white/10 rounded-xl p-3 flex items-center justify-between gap-2 mb-4 overflow-hidden">
+                                <span className="text-[10px] text-slate-400 truncate font-mono">0x71C8129384812938492F9</span>
+                                <button className="text-brand-400 p-2 hover:bg-white/5 rounded-lg flex-shrink-0"><Copy size={16} /></button>
                             </div>
-                            <p className="text-xs text-slate-500 text-center">
-                                Only send {displayData.label} to this address. Sending other assets may result in permanent loss.
-                            </p>
+                            <p className="text-[10px] text-slate-500 text-center uppercase tracking-tighter">Only send {displayData.label} assets to this protocol address.</p>
                         </motion.div>
                     </div>
                 )}
             </AnimatePresence>
 
-            {/* Top Row: Balance Card & Side Panel */}
+            {/* Top Row: Balance Card & Asset List */}
             <div className="grid lg:grid-cols-3 gap-6">
-                <motion.div 
-                    layout
-                    className={`lg:col-span-2 rounded-[2rem] p-1 relative group overflow-hidden transition-all duration-500 shadow-2xl ${displayData.style}`}
-                >
-                    {/* Border Gradient Container */}
-                    <div className={`absolute inset-0 rounded-[2rem] border border-white/10 ${displayData.border}`} />
-                    
-                    {/* Inner Card Content */}
-                    <div className="relative h-full bg-black/20 backdrop-blur-sm rounded-[1.8rem] p-8 overflow-hidden">
-                        {/* Background Patterns */}
+                <motion.div layout className={`lg:col-span-2 rounded-[2rem] p-0.5 relative group overflow-hidden shadow-2xl ${displayData.style}`}>
+                    <div className="relative h-full bg-black/20 backdrop-blur-sm rounded-[1.9rem] p-6 sm:p-8 overflow-hidden">
                         {displayData.pattern}
-                        <div className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none ${displayData.glow}`} />
+                        <div className={`absolute top-0 right-0 w-48 sm:w-64 h-48 sm:h-64 rounded-full blur-[60px] sm:blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none ${displayData.glow}`} />
 
-                        <div className="relative z-10 flex flex-col h-full justify-between min-h-[280px]">
-                            
-                            {/* Header: Label & Toggle */}
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <div className={`p-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/10 ${displayData.accent}`}>
-                                            {activeWallet === 'ngn' && <Smartphone size={16} />}
-                                            {activeWallet === 'usd' && <CircleDollarSign size={16} />}
-                                            {activeWallet === 'crypto' && <Hexagon size={16} />}
-                                        </div>
-                                        <p className="text-white/90 font-bold tracking-wide text-sm uppercase flex items-center gap-2">
-                                            {displayData.label}
-                                            <button onClick={() => setShowBalance(!showBalance)} className="hover:text-white text-white/50 transition-colors">
-                                                {showBalance ? <Eye size={14} /> : <EyeOff size={14} />}
-                                            </button>
-                                        </p>
+                        <div className="relative z-10 flex flex-col h-full justify-between min-h-[240px] sm:min-h-[280px]">
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                                <div className="flex items-center gap-2">
+                                    <div className={`p-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/10 ${displayData.accent}`}>
+                                        {activeWallet === 'ngn' && <Smartphone size={16} />}
+                                        {activeWallet === 'usd' && <CircleDollarSign size={16} />}
+                                        {activeWallet === 'crypto' && <Hexagon size={16} />}
                                     </div>
+                                    <p className="text-white/90 font-bold tracking-wide text-[10px] sm:text-xs uppercase flex items-center gap-2">
+                                        {displayData.label}
+                                        <button onClick={() => setShowBalance(!showBalance)} className="text-white/50">{showBalance ? <Eye size={12} /> : <EyeOff size={12} />}</button>
+                                    </p>
                                 </div>
 
-                                {/* Wallet Switcher Pills */}
-                                <div className="bg-black/40 backdrop-blur-xl rounded-full p-1 flex border border-white/10">
-                                    <button 
-                                        onClick={() => handleWalletChange('ngn')}
-                                        className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeWallet === 'ngn' ? 'bg-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(16,185,129,0.4)]' : 'text-white/50 hover:text-white'}`}
-                                    >
-                                        NGN
-                                    </button>
-                                    <button 
-                                        onClick={() => handleWalletChange('usd')}
-                                        className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeWallet === 'usd' ? 'bg-amber-500 text-slate-950 shadow-[0_0_15px_rgba(245,158,11,0.4)]' : 'text-white/50 hover:text-white'}`}
-                                    >
-                                        USD
-                                    </button>
-                                    <button 
-                                        onClick={() => handleWalletChange('crypto')}
-                                        className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeWallet === 'crypto' ? 'bg-violet-500 text-white shadow-[0_0_15px_rgba(139,92,246,0.4)]' : 'text-white/50 hover:text-white'}`}
-                                    >
-                                        Crypto
-                                    </button>
+                                <div className="bg-black/40 backdrop-blur-xl rounded-full p-1 flex border border-white/10 self-end sm:self-auto">
+                                    {['ngn', 'usd', 'crypto'].map((w) => (
+                                        <button key={w} onClick={() => handleWalletChange(w as any)} className={`px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase transition-all ${activeWallet === w ? 'bg-white text-slate-950 shadow-xl' : 'text-white/40'}`}>{w}</button>
+                                    ))}
                                 </div>
                             </div>
 
-                            {/* Main Balance Display */}
-                            <div className="mt-8 mb-8">
-                                <h2 className="font-mono font-bold text-5xl sm:text-6xl tracking-tighter text-white drop-shadow-lg flex items-baseline gap-2">
+                            <div className="mt-8 mb-8 overflow-hidden">
+                                <h2 className="font-mono font-black text-3xl xs:text-4xl sm:text-5xl md:text-6xl tracking-tighter text-white flex flex-wrap items-baseline gap-2">
                                     {showBalance ? (
                                         <>
-                                            {activeWallet !== 'crypto' && <span className={`text-2xl font-sans font-medium opacity-70 ${displayData.accent}`}>{displayData.currency}</span>}
-                                            {displayData.balance}
-                                            {activeWallet === 'crypto' && <span className={`text-2xl font-sans font-medium opacity-70 ${displayData.accent}`}>{displayData.currency}</span>}
+                                            {activeWallet !== 'crypto' && <span className={`text-base sm:text-2xl font-sans font-medium opacity-70 ${displayData.accent}`}>{displayData.currency}</span>}
+                                            <span className="truncate max-w-full">{displayData.balance}</span>
+                                            {activeWallet === 'crypto' && <span className={`text-base sm:text-2xl font-sans font-medium opacity-70 ${displayData.accent}`}>{displayData.currency}</span>}
                                         </>
                                     ) : '••••••••'}
                                 </h2>
                                 
                                 {showBalance && (
-                                    <div className="flex items-center gap-3 mt-2">
-                                         {/* Sub Value for Crypto (BTC default or Selected Token) */}
-                                        {activeWallet === 'crypto' && (
-                                            <p className="text-white/80 text-sm font-medium bg-black/20 px-3 py-1.5 rounded-lg backdrop-blur-sm border border-white/5">
-                                                {displayData.subValue}
-                                            </p>
-                                        )}
-                                        {/* NGN Account Number Display */}
+                                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2">
+                                        {activeWallet === 'crypto' && <p className="text-white/80 text-[10px] sm:text-xs font-bold bg-black/20 px-2 py-1 rounded-lg backdrop-blur-sm">{displayData.subValue}</p>}
                                         {activeWallet === 'ngn' && (
-                                            <div className="inline-flex items-center gap-3 bg-emerald-500/10 backdrop-blur-md px-3 py-1 rounded-lg border border-emerald-500/20 group/copy cursor-pointer hover:bg-emerald-500/20 transition-all">
-                                                <span className="text-emerald-400 text-xs font-bold uppercase tracking-wider">Flash Account Number:</span>
-                                                <span className="font-mono text-white font-bold tracking-widest text-sm">{accountNumber}</span>
-                                                <button className="text-emerald-400 hover:text-white transition-colors">
-                                                    <Copy size={12} />
-                                                </button>
+                                            <div className="inline-flex items-center gap-2 bg-emerald-500/10 backdrop-blur-md px-2 py-1 rounded-lg border border-emerald-500/20 max-w-full overflow-hidden">
+                                                <span className="text-emerald-400 text-[8px] font-black uppercase tracking-widest flex-shrink-0">Acc:</span>
+                                                <span className="font-mono text-white font-bold text-[10px] sm:text-xs truncate">{accountNumber}</span>
                                             </div>
                                         )}
-                                        {activeWallet === 'usd' && (
-                                             <div className="inline-flex items-center gap-1 text-amber-400 text-xs font-bold bg-amber-500/10 px-2 py-1 rounded-lg border border-amber-500/20">
-                                                <TrendingUp size={12} /> +2.4% yield
-                                             </div>
-                                        )}
+                                        {activeWallet === 'usd' && <div className="inline-flex items-center gap-1 text-amber-400 text-[9px] font-bold bg-amber-500/10 px-2 py-1 rounded-lg">+2.4% yield</div>}
                                     </div>
                                 )}
                             </div>
 
-                            {/* Action Buttons */}
-                            <div className="flex gap-4">
+                            <div className="grid grid-cols-2 xs:grid-cols-3 gap-2 sm:gap-4">
                                 {activeWallet === 'crypto' ? (
                                     <>
-                                        <button 
-                                            onClick={() => setShowReceiveModal(true)}
-                                            className="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-md py-4 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 border border-white/5 hover:border-white/20"
-                                        >
-                                            <ArrowDownLeft size={18} className={displayData.accent} /> Receive
-                                        </button>
-                                        <button className="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-md py-4 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 border border-white/5 hover:border-white/20">
-                                            <ArrowUpRight size={18} className={displayData.accent} /> Send
-                                        </button>
-                                        <button 
-                                            onClick={() => onChangeTab('trade')}
-                                            className="flex-1 bg-white text-slate-950 hover:bg-white/90 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg"
-                                        >
-                                            <Plus size={18} /> Buy
-                                        </button>
+                                        <button onClick={() => setShowReceiveModal(true)} className="flex-1 bg-white/10 active:scale-95 py-3 sm:py-4 rounded-xl font-bold text-xs text-white transition-all flex items-center justify-center gap-2 border border-white/5 truncate px-2"><ArrowDownLeft size={14} className={displayData.accent} /> Receive</button>
+                                        <button className="flex-1 bg-white/10 active:scale-95 py-3 sm:py-4 rounded-xl font-bold text-xs text-white transition-all flex items-center justify-center gap-2 border border-white/5 truncate px-2"><ArrowUpRight size={14} className={displayData.accent} /> Send</button>
+                                        <button onClick={() => onChangeTab('trade')} className="flex-1 col-span-2 xs:col-span-1 bg-white text-slate-950 active:scale-95 py-3 sm:py-4 rounded-xl font-black uppercase text-[10px] transition-all flex items-center justify-center gap-2 shadow-lg"><Plus size={14} /> Buy</button>
                                     </>
                                 ) : (
                                     <>
-                                        <button className="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-md py-4 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 border border-white/5 hover:border-white/20">
-                                            <Plus size={18} className={displayData.accent} /> Add Money
-                                        </button>
-                                        <button className="flex-1 bg-white text-slate-950 hover:bg-white/90 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg">
-                                            <ArrowUpRight size={18} /> Transfer
-                                        </button>
-                                        <button onClick={() => onChangeTab('trade')} className="flex-1 bg-white/10 hover:bg-white/20 backdrop-blur-md py-4 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 border border-white/5 hover:border-white/20">
-                                            <Repeat size={18} className={displayData.accent} /> Swap
-                                        </button>
+                                        <button onClick={() => onChangeTab('fund')} className="flex-1 bg-white/10 active:scale-95 py-3 sm:py-4 rounded-xl font-bold text-xs text-white transition-all flex items-center justify-center gap-2 border border-white/5 truncate px-2"><Plus size={14} className={displayData.accent} /> Top-up</button>
+                                        <button className="flex-1 bg-white text-slate-950 active:scale-95 py-3 sm:py-4 rounded-xl font-black uppercase text-[10px] transition-all flex items-center justify-center gap-2 shadow-lg truncate px-2"><ArrowUpRight size={14} /> Transfer</button>
+                                        <button onClick={() => onChangeTab('trade')} className="flex-1 col-span-2 xs:col-span-1 bg-white/10 active:scale-95 py-3 sm:py-4 rounded-xl font-bold text-xs text-white transition-all flex items-center justify-center gap-2 border border-white/5 truncate px-2"><Repeat size={14} className={displayData.accent} /> Swap</button>
                                     </>
                                 )}
                             </div>
@@ -372,262 +293,132 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
                     </div>
                 </motion.div>
 
-                {/* Right Panel: Conditional Rendering based on Wallet Type */}
-                <div className="bg-dark-900 border border-white/5 rounded-[2rem] p-6 flex flex-col h-full overflow-hidden">
+                {/* Right Panel: Assets/QuickSpend */}
+                <div className="bg-dark-900 border border-white/5 rounded-[2rem] p-5 sm:p-6 flex flex-col h-full overflow-hidden">
                     {activeWallet === 'crypto' ? (
                         <>
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="font-bold text-white">Your Assets</h3>
-                                <Button variant="ghost" size="sm" className="text-xs">Manage</Button>
+                                <h3 className="font-bold text-white text-sm">Assets</h3>
+                                <button className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Manage</button>
                             </div>
-                            <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
+                            <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-1 custom-scrollbar">
                                 {tokens.map((token) => (
-                                    <div 
-                                        key={token.id}
-                                        onClick={() => setSelectedToken(token)}
-                                        className={`flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-all border ${
-                                            (selectedToken?.id === token.id) || (!selectedToken && token.id === 'btc') // Highlight BTC if nothing selected (default view)
-                                                ? 'bg-white/10 border-white/20 shadow-lg' 
-                                                : 'bg-transparent border-transparent hover:bg-white/5'
-                                        }`}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${token.color} flex items-center justify-center text-white font-bold text-lg shadow-lg`}>
-                                                {token.icon}
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-bold text-white">{token.name}</p>
-                                                <p className="text-xs text-slate-400 font-mono">{token.balance} {token.symbol}</p>
+                                    <div key={token.id} onClick={() => setSelectedToken(token)} className={`flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-all border ${ (selectedToken?.id === token.id) || (!selectedToken && token.id === 'btc') ? 'bg-white/5 border-white/10' : 'bg-transparent border-transparent' }`}>
+                                        <div className="flex items-center gap-3 overflow-hidden">
+                                            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${token.color} flex flex-shrink-0 items-center justify-center text-white font-bold text-sm sm:text-lg shadow-lg`}>{token.icon}</div>
+                                            <div className="overflow-hidden">
+                                                <p className="text-xs sm:text-sm font-bold text-white truncate">{token.name}</p>
+                                                <p className="text-[9px] sm:text-[10px] text-slate-500 font-mono truncate">{token.balance} {token.symbol}</p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <p className="text-sm font-bold text-white font-mono">${token.value}</p>
-                                            <p className={`text-xs font-medium ${token.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
-                                                {token.change}
-                                            </p>
+                                        <div className="text-right flex-shrink-0">
+                                            <p className="text-xs sm:text-sm font-bold text-white font-mono">${token.value}</p>
+                                            <p className={`text-[9px] sm:text-[10px] font-bold ${token.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>{token.change}</p>
                                         </div>
                                     </div>
                                 ))}
-                                <button className="flex items-center justify-center gap-2 p-3 rounded-2xl border border-dashed border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all mt-2">
-                                    <Plus size={16} /> Import Token
-                                </button>
                             </div>
                         </>
                     ) : activeWallet === 'ngn' ? (
-                        /* NGN View with Quick Bills & Transfer */
                         <>
                             <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-bold text-white">Quick Bills</h3>
-                                <div className="px-2 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
-                                    INSTANT
-                                </div>
+                                <h3 className="font-bold text-white text-sm">Quick Bills</h3>
                             </div>
-                            
-                            {/* Bill Grid */}
                             <div className="grid grid-cols-4 gap-2 mb-6">
-                                <button onClick={() => onChangeTab('bills')} className="flex flex-col items-center gap-2 p-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-emerald-500/30 transition-all group">
-                                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform shadow-lg shadow-emerald-900/20">
-                                        <Smartphone size={18} />
-                                    </div>
-                                    <span className="text-[10px] font-bold text-slate-300 group-hover:text-white">Airtime</span>
-                                </button>
-                                <button onClick={() => onChangeTab('bills')} className="flex flex-col items-center gap-2 p-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-electric-500/30 transition-all group">
-                                    <div className="w-10 h-10 rounded-full bg-electric-500/10 flex items-center justify-center text-electric-500 group-hover:scale-110 transition-transform shadow-lg shadow-electric-900/20">
-                                        <Wifi size={18} />
-                                    </div>
-                                    <span className="text-[10px] font-bold text-slate-300 group-hover:text-white">Data</span>
-                                </button>
-                                <button onClick={() => onChangeTab('bills')} className="flex flex-col items-center gap-2 p-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-orange-500/30 transition-all group">
-                                    <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform shadow-lg shadow-orange-900/20">
-                                        <Gamepad2 size={18} />
-                                    </div>
-                                    <span className="text-[10px] font-bold text-slate-300 group-hover:text-white">Betting</span>
-                                </button>
-                                <button onClick={() => onChangeTab('bills')} className="flex flex-col items-center gap-2 p-2 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-purple-500/30 transition-all group">
-                                    <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-500 group-hover:scale-110 transition-transform shadow-lg shadow-purple-900/20">
-                                        <Tv size={18} />
-                                    </div>
-                                    <span className="text-[10px] font-bold text-slate-300 group-hover:text-white">TV</span>
-                                </button>
+                                {[
+                                    { icon: <Smartphone size={16} />, label: 'Airtime', col: 'text-emerald-500' },
+                                    { icon: <Wifi size={16} />, label: 'Data', col: 'text-electric-500' },
+                                    { icon: <Gamepad2 size={16} />, label: 'Bets', col: 'text-orange-500' },
+                                    { icon: <Tv size={16} />, label: 'TV', col: 'text-purple-500' },
+                                ].map((item, i) => (
+                                    <button key={i} onClick={() => onChangeTab('bills')} className="flex flex-col items-center gap-2 p-2 rounded-2xl bg-white/5 active:scale-95 transition-all group">
+                                        <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center ${item.col}`}>{item.icon}</div>
+                                        <span className="text-[8px] sm:text-[9px] font-black uppercase text-slate-400 truncate max-w-full">{item.label}</span>
+                                    </button>
+                                ))}
                             </div>
-
-                            <div className="flex justify-between items-center mb-4">
-                                <h3 className="font-bold text-white">Quick Transfer</h3>
-                            </div>
-
-                            <div className="flex-1 flex flex-col gap-4">
-                                <div>
-                                    <label className="text-xs text-slate-400 font-bold ml-1 mb-1.5 block uppercase">Recipient</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <span className="text-slate-500">@</span>
-                                        </div>
-                                        <input 
-                                            type="text" 
-                                            value={recipient}
-                                            onChange={(e) => setRecipient(e.target.value)}
-                                            placeholder="username or phone" 
-                                            className="w-full bg-dark-950 border border-white/10 rounded-xl py-3 pl-8 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50"
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="text-xs text-slate-400 font-bold ml-1 mb-1.5 block uppercase">Amount</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <span className="text-slate-500">₦</span>
-                                        </div>
-                                        <input 
-                                            type="text" 
-                                            value={amount}
-                                            onChange={(e) => setAmount(e.target.value)}
-                                            placeholder="0.00" 
-                                            className="w-full bg-dark-950 border border-white/10 rounded-xl py-3 pl-8 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50"
-                                        />
-                                    </div>
-                                </div>
-                                <Button className="w-full mt-auto bg-emerald-500 text-slate-950 hover:bg-emerald-400 font-bold shadow-lg shadow-emerald-500/20">
-                                    Send Instantly
-                                </Button>
+                            <div className="flex flex-col gap-2 mt-auto">
+                                <button onClick={() => onChangeTab('pay')} className="w-full flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-brand-500 text-slate-950 font-black uppercase text-[10px] tracking-tight"><span className="flex items-center gap-2"><QrCode size={16} /> Scan Terminal</span><ChevronRight size={14} /></button>
+                                <button onClick={() => onChangeTab('pay')} className="w-full flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-white/5 text-white border border-white/10 font-black uppercase text-[10px] tracking-tight"><span className="flex items-center gap-2"><SmartphoneNfc size={16} /> Tap to Pay</span><ChevronRight size={14} /></button>
                             </div>
                         </>
                     ) : (
-                        /* USD View with Quick Transfer (Replaced Promos) */
-                        <>
-                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="font-bold text-white">Quick Transfer</h3>
-                                <div className="px-2 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold text-amber-400 uppercase tracking-wider">
-                                    USD
-                                </div>
+                        <div className="flex flex-col h-full">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="font-bold text-white text-sm uppercase tracking-widest">USD Send</h3>
                             </div>
-                            
-                            <div className="flex-1 flex flex-col gap-4">
+                            <div className="space-y-4">
                                 <div>
-                                    <label className="text-xs text-slate-400 font-bold ml-1 mb-1.5 block uppercase">Recipient</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <span className="text-slate-500">@</span>
-                                        </div>
-                                        <input 
-                                            type="text" 
-                                            placeholder="Flash Tag" 
-                                            className="w-full bg-dark-950 border border-white/10 rounded-xl py-3 pl-8 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/50"
-                                        />
-                                    </div>
+                                    <label className="text-[9px] text-slate-500 font-black uppercase ml-1 block mb-1">Recipient Tag</label>
+                                    <input type="text" placeholder="@tag" className="w-full bg-dark-950 border border-white/5 rounded-xl py-3 px-4 text-sm text-white focus:border-brand-500 outline-none" />
                                 </div>
                                 <div>
-                                    <label className="text-xs text-slate-400 font-bold ml-1 mb-1.5 block uppercase">Amount</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <span className="text-slate-500">$</span>
-                                        </div>
-                                        <input 
-                                            type="text" 
-                                            placeholder="0.00" 
-                                            className="w-full bg-dark-950 border border-white/10 rounded-xl py-3 pl-8 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/50"
-                                        />
-                                    </div>
+                                    <label className="text-[9px] text-slate-500 font-black uppercase ml-1 block mb-1">Amount ($)</label>
+                                    <input type="text" placeholder="0.00" className="w-full bg-dark-950 border border-white/5 rounded-xl py-3 px-4 text-sm text-white focus:border-brand-500 outline-none" />
                                 </div>
-                                <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-                                    <div className="flex justify-between text-xs text-slate-400 mb-1">
-                                        <span>Exchange Rate</span>
-                                        <span className="text-white">1 USD ≈ 1,450 NGN</span>
-                                    </div>
-                                    <div className="flex justify-between text-xs text-slate-400">
-                                        <span>Fee</span>
-                                        <span className="text-green-400">Free</span>
-                                    </div>
+                                <div className="bg-white/5 rounded-xl p-3 border border-white/5 text-[9px] sm:text-[10px] space-y-1">
+                                    <div className="flex justify-between text-slate-500 uppercase"><span>Rate</span><span className="text-white">1 USD ≈ 1,450 NGN</span></div>
+                                    <div className="flex justify-between text-slate-500 uppercase"><span>Fee</span><span className="text-green-400">FREE</span></div>
                                 </div>
-                                <Button className="w-full mt-auto bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold shadow-lg shadow-amber-500/20">
-                                    Send USD
-                                </Button>
                             </div>
-                        </>
+                            <Button className="w-full mt-auto bg-amber-500 text-slate-950 font-black text-[10px] uppercase py-3.5 rounded-xl shadow-lg shadow-amber-500/10">Execute Send</Button>
+                        </div>
                     )}
                 </div>
             </div>
 
             {/* Bottom Row: Advert Carousel & Transactions */}
             <div className="grid lg:grid-cols-2 gap-6">
-                
-                {/* Advert Carousel */}
-                <div className="bg-dark-900 border border-white/5 rounded-[2rem] p-6 relative overflow-hidden min-h-[300px] flex flex-col">
+                <div className="bg-dark-900 border border-white/5 rounded-[2rem] p-6 relative overflow-hidden min-h-[260px] sm:min-h-[300px] flex flex-col">
                     <div className="flex justify-between items-center mb-6 relative z-10">
-                        <h3 className="font-bold text-white">Highlights</h3>
-                        <div className="flex gap-1.5">
+                        <h3 className="font-bold text-white text-sm">Highlights</h3>
+                        <div className="flex gap-1">
                             {promos.map((_, idx) => (
-                                <div 
-                                    key={idx}
-                                    className={`w-1.5 h-1.5 rounded-full transition-colors ${idx === promoIndex ? 'bg-white' : 'bg-white/20'}`}
-                                />
+                                <div key={idx} className={`w-1 h-1 rounded-full transition-colors ${idx === promoIndex ? 'bg-white' : 'bg-white/20'}`} />
                             ))}
                         </div>
                     </div>
                     
                     <div className="flex-1 relative overflow-hidden rounded-2xl">
                         <AnimatePresence mode="wait">
-                            <motion.div
-                                key={promoIndex}
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ duration: 0.3 }}
-                                className={`absolute inset-0 bg-gradient-to-br ${promos[promoIndex].color} p-6 flex flex-col justify-between`}
-                            >
-                                {/* Background Accent */}
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-                                
+                            <motion.div key={promoIndex} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className={`absolute inset-0 bg-gradient-to-br ${promos[promoIndex].color} p-5 sm:p-6 flex flex-col justify-between`}>
                                 <div className="relative z-10">
-                                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-4">
-                                        {promos[promoIndex].icon}
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">{promos[promoIndex].title}</h3>
-                                    <p className="text-white/80 text-base leading-relaxed max-w-sm">{promos[promoIndex].desc}</p>
+                                    <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-4">{promos[promoIndex].icon}</div>
+                                    <h3 className="text-xl sm:text-2xl font-black text-white mb-2 italic uppercase tracking-tighter">{promos[promoIndex].title}</h3>
+                                    <p className="text-white/80 text-xs sm:text-sm leading-relaxed max-w-sm font-medium">{promos[promoIndex].desc}</p>
                                 </div>
-
-                                <button 
-                                    onClick={promos[promoIndex].action}
-                                    className="w-full py-4 bg-white text-slate-900 rounded-xl font-bold text-sm hover:bg-white/90 transition-colors shadow-lg mt-6 flex items-center justify-center gap-2 group"
-                                >
-                                    {promos[promoIndex].btn} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                <button onClick={promos[promoIndex].action} className="w-full py-3.5 bg-white text-slate-900 rounded-xl font-black uppercase text-[10px] hover:bg-white/90 transition-colors shadow-lg mt-4 flex items-center justify-center gap-2 group">
+                                    {promos[promoIndex].btn} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
                             </motion.div>
                         </AnimatePresence>
                     </div>
                 </div>
 
-                {/* Recent Transactions Summary */}
-                <div className="bg-dark-900 border border-white/5 rounded-[2rem] p-6 flex flex-col">
+                <div className="bg-dark-900 border border-white/5 rounded-[2rem] p-5 sm:p-6 flex flex-col">
                     <div className="flex justify-between items-center mb-6">
-                        <h3 className="font-bold text-white">Recent Activity</h3>
-                        <Button variant="ghost" size="sm" onClick={() => onChangeTab('transactions')} className="text-xs">
-                            View All
-                        </Button>
+                        <h3 className="font-bold text-white text-sm">Activity</h3>
+                        <button onClick={() => onChangeTab('transactions')} className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">All</button>
                     </div>
 
-                    <div className="flex-1 flex flex-col gap-2">
+                    <div className="flex-1 flex flex-col gap-1 overflow-y-auto custom-scrollbar">
                         {recentTransactions.map((tx) => (
-                            <div key={tx.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-white/5 transition-colors group cursor-default border border-transparent hover:border-white/5">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-dark-950 border border-white/10 flex items-center justify-center text-lg shadow-sm group-hover:border-white/20 group-hover:scale-105 transition-all">
-                                        {tx.icon}
-                                    </div>
-                                    <div>
-                                        <p className="font-bold text-white text-sm">{tx.title}</p>
-                                        <p className="text-xs text-slate-500">{tx.date}</p>
+                            <div key={tx.id} className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-colors group overflow-hidden">
+                                <div className="flex items-center gap-3 overflow-hidden">
+                                    <div className="w-9 h-9 rounded-full bg-dark-950 border border-white/5 flex flex-shrink-0 items-center justify-center text-base sm:text-lg group-hover:scale-110 transition-transform">{tx.icon}</div>
+                                    <div className="overflow-hidden">
+                                        <p className="font-bold text-white text-[11px] sm:text-xs truncate">{tx.title}</p>
+                                        <p className="text-[9px] sm:text-[10px] text-slate-500 font-mono">{tx.date}</p>
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <p className={`font-mono font-bold text-sm ${tx.type === 'credit' ? 'text-green-400' : 'text-white'}`}>
-                                        {tx.amount}
-                                    </p>
-                                    <p className="text-[10px] text-slate-500 uppercase font-medium">{tx.type}</p>
+                                <div className="text-right flex-shrink-0 ml-2">
+                                    <p className={`font-mono font-bold text-[11px] sm:text-xs ${tx.type === 'credit' ? 'text-green-400' : 'text-white'}`}>{tx.amount}</p>
+                                    <p className="text-[8px] text-slate-600 uppercase font-black tracking-tighter">{tx.type}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-
             </div>
         </div>
     );

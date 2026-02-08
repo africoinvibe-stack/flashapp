@@ -58,7 +58,7 @@ export const SplashScreen: React.FC = () => {
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
                     initial={{ x: '-150%' }}
                     animate={{ x: '150%' }}
-                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut", repeatDelay: 0.5 }}
+                    transition={{ repeat: 999999, duration: 1.5, ease: "easeInOut", repeatDelay: 0.5 }}
                 />
                 
                 <Zap className="text-white w-12 h-12 fill-white drop-shadow-md relative z-10" />
@@ -81,17 +81,17 @@ export const SplashScreen: React.FC = () => {
                 <motion.div 
                     className="w-1.5 h-1.5 rounded-full bg-brand-400"
                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1, repeat: Infinity, delay: 0 }}
+                    transition={{ duration: 1, repeat: 999999, delay: 0 }}
                 />
                 <motion.div 
                     className="w-1.5 h-1.5 rounded-full bg-brand-400"
                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                    transition={{ duration: 1, repeat: 999999, delay: 0.2 }}
                 />
                 <motion.div 
                     className="w-1.5 h-1.5 rounded-full bg-brand-400"
                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
+                    transition={{ duration: 1, repeat: 999999, delay: 0.4 }}
                 />
             </div>
         </motion.div>

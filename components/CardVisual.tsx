@@ -22,7 +22,7 @@ export const CardVisual: React.FC = () => {
         }}
         transition={{ 
           duration: 6, 
-          repeat: Infinity, 
+          repeat: 999999, 
           ease: "easeInOut" 
         }}
       >
@@ -83,7 +83,7 @@ export const CardVisual: React.FC = () => {
         <motion.div 
           className="absolute top-0 -inset-full w-1/2 h-full z-20 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20"
           animate={{ left: ['-100%', '200%'] }}
-          transition={{ duration: 3, repeat: Infinity, repeatDelay: 3, ease: "linear" }}
+          transition={{ duration: 3, repeat: 999999, repeatDelay: 3, ease: "linear" }}
         />
       </motion.div>
       
@@ -91,12 +91,12 @@ export const CardVisual: React.FC = () => {
       <motion.div 
         className="absolute -top-12 -right-12 w-24 h-24 bg-brand-500/10 rounded-full blur-2xl"
         animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity }}
+        transition={{ duration: 4, repeat: 999999 }}
       />
       <motion.div 
         className="absolute -bottom-8 -left-8 w-32 h-32 bg-electric-500/20 rounded-full blur-2xl"
         animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0.7, 0.5] }}
-        transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+        transition={{ duration: 5, repeat: 999999, delay: 1 }}
       />
     </div>
   );
