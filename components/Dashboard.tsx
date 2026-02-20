@@ -48,7 +48,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     { id: 'fund', label: 'Add Cash', icon: <PlusCircle size={20} /> },
     { id: 'pay', label: 'Flash Pay', icon: <SmartphoneNfc size={20} /> },
     { id: 'bills', label: 'Lifestyle & Bills', icon: <Smartphone size={20} /> },
-    { id: 'cards', label: 'Virtual Studio', icon: <CreditCard size={20} /> },
+    { id: 'cards', label: 'Virtual Card', icon: <CreditCard size={20} /> },
     { id: 'trade', label: 'P2P Trading', icon: <ArrowLeftRight size={20} /> },
     { id: 'agents', label: 'Cash Points', icon: <Users size={20} /> },
     { id: 'help', label: 'Help Center', icon: <HelpCircle size={20} /> },
