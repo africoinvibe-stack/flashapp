@@ -116,7 +116,7 @@ export const TradeHub: React.FC = () => {
                                             </div>
                                         </div>
                                         <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
-                                            {isSearching ? <span className="text-brand-400 animate-pulse flex items-center justify-center gap-2"><Bot size={12} /> Syncing Nodes...</span> : showMatches ? <span className="text-emerald-400 flex items-center justify-center gap-2"><Zap size={12} /> Optimized Rates Found</span> : `≈ ${convertedValue} ${selectedToken.symbol}`}
+                                            {isSearching ? <span className="text-brand-400 animate-pulse flex items-center justify-center gap-2"><Bot size={12} /> Connecting Network...</span> : showMatches ? <span className="text-emerald-400 flex items-center justify-center gap-2"><Zap size={12} /> Optimized Rates Found</span> : `≈ ${convertedValue} ${selectedToken.symbol}`}
                                         </p>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@ export const TradeHub: React.FC = () => {
                                 <div className="overflow-x-auto custom-scrollbar no-scrollbar-mobile">
                                     <table className="w-full text-left border-collapse min-w-[600px]">
                                         <thead className="bg-dark-950/50 text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">
-                                            <tr><th className="px-6 py-5">Node</th><th className="px-6 py-5">Rate</th><th className="px-6 py-5">Limit</th><th className="px-6 py-5 text-right">Action</th></tr>
+                                            <tr><th className="px-6 py-5">Hub</th><th className="px-6 py-5">Rate</th><th className="px-6 py-5">Limit</th><th className="px-6 py-5 text-right">Action</th></tr>
                                         </thead>
                                         <tbody className="divide-y divide-white/5">
                                             {(showMatches ? topMatches : topMatches).map((offer: any) => (
@@ -319,7 +319,7 @@ export const TradeHub: React.FC = () => {
                                 {txStep === 'processing' && (
                                     <motion.div key="processing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center py-4">
                                         <Loader2 className="w-10 h-10 text-brand-500 animate-spin mx-auto mb-4" />
-                                        <p className="text-xs font-black text-white uppercase tracking-widest animate-pulse">Syncing Nodes...</p>
+                                        <p className="text-xs font-black text-white uppercase tracking-widest animate-pulse">Connecting Network...</p>
                                         <p className="text-[10px] text-slate-500 mt-2 uppercase font-black">Cryptographic Handshake in Progress</p>
                                     </motion.div>
                                 )}

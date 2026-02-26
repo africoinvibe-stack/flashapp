@@ -55,7 +55,7 @@ export const AddCash: React.FC<AddCashProps> = ({ onBack, isMerchant = false }) 
         </button>
         <div>
           <h2 className="text-2xl sm:text-3xl font-display font-black text-white uppercase italic tracking-tighter">
-            {isMerchant ? 'Fund Business Node' : 'Add Cash to Wallet'}
+            {isMerchant ? 'Fund Business Account' : 'Add Cash to Wallet'}
           </h2>
           <p className="text-slate-500 text-xs sm:text-sm font-medium">Fund your account via bank transfer or Flash ID.</p>
         </div>
@@ -116,7 +116,7 @@ export const AddCash: React.FC<AddCashProps> = ({ onBack, isMerchant = false }) 
                 <div className="flex items-start gap-3 bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4">
                   <Info size={18} className="text-blue-400 mt-0.5 flex-shrink-0" />
                   <p className="text-[11px] text-blue-200/70 leading-relaxed">
-                    Transfer any amount to this account from your banking app. Your {isMerchant ? 'business node' : 'wallet'} will be credited automatically within 60 seconds of successful settlement.
+                    Transfer any amount to this account from your banking app. Your {isMerchant ? 'business account' : 'wallet'} will be credited automatically within 60 seconds of successful settlement.
                   </p>
                 </div>
               </div>

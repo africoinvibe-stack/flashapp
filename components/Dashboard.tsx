@@ -17,7 +17,8 @@ import {
   Zap,
   QrCode,
   SmartphoneNfc,
-  PlusCircle
+  PlusCircle,
+  Globe
 } from 'lucide-react';
 import { ChatWidget } from './ChatWidget';
 
@@ -31,12 +32,14 @@ import { BillPayment } from './dashboard/BillPayment';
 import { HelpSupport } from './dashboard/HelpSupport';
 import { FlashPay } from './dashboard/FlashPay';
 import { AddCash } from './dashboard/AddCash';
+import { SendMoney } from './dashboard/SendMoney';
+import { ForexFunding } from './dashboard/ForexFunding';
 
 interface DashboardProps {
   onLogout: () => void;
 }
 
-type Tab = 'overview' | 'bills' | 'cards' | 'trade' | 'agents' | 'help' | 'settings' | 'pay' | 'fund';
+type Tab = 'overview' | 'bills' | 'cards' | 'trade' | 'agents' | 'help' | 'settings' | 'pay' | 'fund' | 'send' | 'forex';
 
 export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
@@ -49,6 +52,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     { id: 'pay', label: 'Flash Pay', icon: <SmartphoneNfc size={20} /> },
     { id: 'bills', label: 'Lifestyle & Bills', icon: <Smartphone size={20} /> },
     { id: 'cards', label: 'Virtual Card', icon: <CreditCard size={20} /> },
+    { id: 'forex', label: 'Forex Funding', icon: <Globe size={20} /> },
     { id: 'trade', label: 'P2P Trading', icon: <ArrowLeftRight size={20} /> },
     { id: 'agents', label: 'Cash Points', icon: <Users size={20} /> },
     { id: 'help', label: 'Help Center', icon: <HelpCircle size={20} /> },
@@ -60,6 +64,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       case 'overview': return <Overview onChangeTab={setActiveTab} />;
       case 'pay': return <FlashPay onBack={() => setActiveTab('overview')} />;
       case 'fund': return <AddCash onBack={() => setActiveTab('overview')} />;
+      case 'send': return <SendMoney onBack={() => setActiveTab('overview')} />;
+      case 'forex': return <ForexFunding onBack={() => setActiveTab('overview')} />;
       case 'bills': return <BillPayment />;
       case 'cards': return <WalletCards />;
       case 'trade': return <TradeHub />;
@@ -139,6 +145,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                      activeTab === 'help' ? 'Help Center' : 
                      activeTab === 'pay' ? 'Flash Pay Terminal' :
                      activeTab === 'fund' ? 'Add Cash' :
+                     activeTab === 'send' ? 'Send Money' :
+                     activeTab === 'forex' ? 'Forex Broker Funding' :
                      activeTab.replace('-', ' ')}
                 </h1>
             </div>

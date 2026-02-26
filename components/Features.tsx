@@ -13,7 +13,7 @@ const features = [
     icon: <Store className="w-6 h-6 text-emerald-400" />,
     title: "Merchant Terminal",
     description: "Accept crypto at your physical store as easily as cash. Handshake protocol ensures instant settlement into your business wallet.",
-    badge: "B2B Node"
+    badge: "B2B Hub"
   },
   {
     icon: <Smartphone className="w-6 h-6 text-brand-400" />,
@@ -62,7 +62,7 @@ export const Features: React.FC = () => {
             Next Gen <span className="gradient-text">Financial Hub</span>
           </h2>
           <p className="text-slate-400 max-w-2xl mx-auto text-xl font-medium leading-relaxed">
-            Flash isn't just a wallet. It's a high-performance network connecting the liquid economy with real-world retail nodes through AI.
+            Flash isn't just a wallet. It's a high-performance network connecting the liquid economy with real-world retail points through AI.
           </p>
         </div>
 

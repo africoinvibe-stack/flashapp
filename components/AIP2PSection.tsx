@@ -39,7 +39,7 @@ export const AIP2PSection: React.FC = () => {
                         <div className="absolute inset-0 bg-brand-500/5 blur-3xl rounded-full animate-pulse" />
                         <Brain className="w-16 h-16 sm:w-20 sm:h-20 text-brand-400 fill-brand-400/10 relative z-10" />
                         
-                        {/* Orbiting Data Nodes */}
+                        {/* Orbiting Data Hubs */}
                         {[0, 72, 144, 216, 288].map((deg, i) => (
                             <motion.div
                                 key={i}
@@ -70,10 +70,10 @@ export const AIP2PSection: React.FC = () => {
                         <span className="text-[8px] sm:text-[10px] font-mono text-slate-500 uppercase tracking-widest">Neural_P2P_Engine v2.4</span>
                     </div>
                     <div className="space-y-1 sm:space-y-1.5 font-mono text-[9px] sm:text-[11px]">
-                        <p className="text-emerald-400">{'>> Scanning global nodes...'}</p>
+                        <p className="text-emerald-400">{'>> Scanning global network...'}</p>
                         <p className="text-brand-400">{'>> Matching: 5,000 USDT'}</p>
                         <div className="flex items-center gap-2">
-                            <p className="text-slate-400">{'>> Node verified'}</p>
+                            <p className="text-slate-400">{'>> Hub verified'}</p>
                             <span className="text-emerald-500"> [OK]</span>
                         </div>
                         <motion.p 
@@ -103,7 +103,7 @@ export const AIP2PSection: React.FC = () => {
                   <span className="gradient-text">Trade for You.</span>
                 </h2>
                 <p className="text-lg sm:text-xl text-slate-400 mb-8 sm:mb-10 leading-relaxed font-medium">
-                  Traditional P2P is slow and risky. Flash replaces human error with <span className="text-white underline decoration-brand-500/30">Neural Liquidity Nodes</span>.
+                  Traditional P2P is slow and risky. Flash replaces human error with <span className="text-white underline decoration-brand-500/30">Neural Liquidity Hubs</span>.
                 </p>
 
                 <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 mb-10 sm:mb-12 text-left">

@@ -198,7 +198,7 @@ export const FlashPay: React.FC<FlashPayProps> = ({ onBack }) => {
                    <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-3xl">☕</div>
                    <div>
                       <h3 className="font-black text-white text-xl uppercase italic tracking-tighter">{paymentData.merchant}</h3>
-                      <p className="text-[10px] text-slate-500 font-mono tracking-widest">MERCHANT NODE ID: #HUB-44</p>
+                      <p className="text-[10px] text-slate-500 font-mono tracking-widest">MERCHANT HUB ID: #HUB-44</p>
                    </div>
                 </div>
                 <div className="px-4 py-1.5 rounded-full bg-brand-500/10 text-brand-400 border border-brand-500/20 text-[10px] font-black uppercase">Verified</div>

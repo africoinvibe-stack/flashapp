@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, EyeOff, Plus, ArrowUpRight, Repeat, Wallet, ArrowDownLeft, CreditCard, ChevronRight, X, QrCode, Copy, ArrowLeft, Smartphone, Wifi, Tv, Gamepad2, ChevronLeft, TrendingUp, Zap, Hexagon, CircleDollarSign, History, ArrowRight, SmartphoneNfc, PlusCircle } from 'lucide-react';
+import { Eye, EyeOff, Plus, ArrowUpRight, Repeat, Wallet, ArrowDownLeft, CreditCard, ChevronRight, X, QrCode, Copy, ArrowLeft, Smartphone, Wifi, Tv, Gamepad2, ChevronLeft, TrendingUp, Zap, Hexagon, CircleDollarSign, History, ArrowRight, SmartphoneNfc, PlusCircle, Globe } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -49,21 +49,19 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
             balance: '8,450,200.00', 
             currency: '₦', 
             label: 'Flash NGN', 
-            style: 'bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950',
-            border: 'border-emerald-500/30',
+            style: 'bg-[#022c22]',
+            border: 'border-emerald-500/20',
             accent: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+            glow: 'from-emerald-500/20 to-transparent',
             pattern: (
-                <div className="absolute inset-0 opacity-20 pointer-events-none">
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <pattern id="circuit" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                                <path d="M10 10 h80 v80 h-80 Z" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-                                <circle cx="10" cy="10" r="2" fill="currentColor"/>
-                                <circle cx="90" cy="90" r="2" fill="currentColor"/>
+                            <pattern id="grid-ngn" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.5" />
                             </pattern>
                         </defs>
-                        <rect width="100%" height="100%" fill="url(#circuit)" className="text-emerald-400" />
+                        <rect width="100%" height="100%" fill="url(#grid-ngn)" className="text-emerald-400" />
                     </svg>
                 </div>
             )
@@ -72,20 +70,20 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
             balance: '12,450.00', 
             currency: '$', 
             label: 'Flash USD', 
-            style: 'bg-gradient-to-br from-amber-950 via-orange-900 to-yellow-950',
-            border: 'border-amber-500/30',
-            accent: 'text-amber-400',
-            glow: 'bg-amber-500/20',
+            style: 'bg-[#1e1b4b]',
+            border: 'border-indigo-500/20',
+            accent: 'text-indigo-400',
+            glow: 'from-indigo-500/20 to-transparent',
             pattern: (
-                <div className="absolute inset-0 opacity-20 pointer-events-none">
+                <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
                     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20%" cy="20%" r="40%" fill="url(#grad-usd)" />
                         <defs>
-                            <radialGradient id="goldShine" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                                <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.3"/>
-                                <stop offset="100%" stopColor="#b45309" stopOpacity="0"/>
+                            <radialGradient id="grad-usd" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stopColor="currentColor" stopOpacity="0.5" />
+                                <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
                             </radialGradient>
                         </defs>
-                        <rect width="100%" height="100%" fill="url(#goldShine)" />
                     </svg>
                 </div>
             )
@@ -94,20 +92,20 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
             balance: tokens[0].balance, 
             currency: tokens[0].symbol, 
             label: tokens[0].name, 
-            style: 'bg-gradient-to-br from-indigo-950 via-violet-950 to-fuchsia-950',
-            border: 'border-violet-500/30',
-            accent: 'text-violet-400',
-            glow: 'bg-violet-500/20',
+            style: 'bg-[#1c1917]',
+            border: 'border-orange-500/20',
+            accent: 'text-orange-400',
+            glow: 'from-orange-500/20 to-transparent',
             subValue: `≈ $${tokens[0].value}`,
             pattern: (
-                <div className="absolute inset-0 opacity-20 pointer-events-none">
-                     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                            <pattern id="dots-crypto" width="15" height="15" patternUnits="userSpaceOnUse">
+                                <circle cx="1" cy="1" r="1" fill="currentColor" />
                             </pattern>
                         </defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" className="text-violet-400" />
+                        <rect width="100%" height="100%" fill="url(#dots-crypto)" className="text-orange-400" />
                     </svg>
                 </div>
             )
@@ -132,6 +130,15 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
             icon: <Wallet className="text-white/80" size={24} />,
             btn: "Create",
              action: () => onChangeTab('cards')
+        },
+        { 
+            id: 3,
+            title: "Fund Forex", 
+            desc: "XTB, Capital.com & more.", 
+            color: "from-emerald-600 to-teal-800",
+            icon: <Globe className="text-white/80" size={24} />,
+            btn: "Fund",
+            action: () => onChangeTab('forex')
         }
     ];
 
@@ -159,7 +166,7 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
                     <h2 className="text-xl sm:text-2xl font-display font-bold text-white">
                         Hi, <span className="text-brand-400">@johndoe</span>
                     </h2>
-                    <p className="text-slate-400 text-xs sm:text-sm uppercase tracking-widest font-black">Verified Node 04A</p>
+                    <p className="text-slate-400 text-xs sm:text-sm uppercase tracking-widest font-black">Verified Hub 04A</p>
                 </div>
                 <button 
                     onClick={() => onChangeTab('pay')}
@@ -171,60 +178,70 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
 
             {/* Top Row: Balance Card & Asset List */}
             <div className="grid lg:grid-cols-3 gap-6">
-                <motion.div layout className={`lg:col-span-2 rounded-[2rem] p-0.5 relative group overflow-hidden shadow-2xl ${displayData.style}`}>
-                    <div className="relative h-full bg-black/20 backdrop-blur-sm rounded-[1.9rem] p-5 sm:p-8 overflow-hidden">
+                <motion.div layout className={`lg:col-span-2 rounded-[2.5rem] p-[1px] relative group overflow-hidden shadow-2xl ${displayData.border} bg-white/5`}>
+                    <div className={`relative h-full ${displayData.style} rounded-[2.45rem] p-6 sm:p-10 overflow-hidden`}>
                         {displayData.pattern}
-                        <div className={`absolute top-0 right-0 w-48 sm:w-64 h-48 sm:h-64 rounded-full blur-[60px] sm:blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none ${displayData.glow}`} />
+                        <div className={`absolute top-0 right-0 w-64 sm:w-80 h-64 sm:h-80 rounded-full blur-[80px] sm:blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none bg-gradient-to-br ${displayData.glow}`} />
+                        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-[60px] -translate-x-1/4 translate-y-1/4 pointer-events-none bg-white/[0.02]" />
 
-                        <div className="relative z-10 flex flex-col h-full justify-between min-h-[220px] sm:min-h-[260px]">
+                        <div className="relative z-10 flex flex-col h-full justify-between min-h-[240px] sm:min-h-[280px]">
                             <div className="flex justify-between items-start">
-                                <div className="flex items-center gap-2">
-                                    <p className="text-white/90 font-bold tracking-wide text-[10px] sm:text-xs uppercase flex items-center gap-2">
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center ${displayData.accent}`}>
+                                        {activeWallet === 'crypto' ? <Hexagon size={16} /> : <CircleDollarSign size={16} />}
+                                    </div>
+                                    <p className="text-white/60 font-black tracking-[0.2em] text-[9px] sm:text-[10px] uppercase flex items-center gap-3">
                                         {displayData.label}
-                                        <button onClick={() => setShowBalance(!showBalance)} className="text-white/50">{showBalance ? <Eye size={12} /> : <EyeOff size={12} />}</button>
+                                        <button onClick={() => setShowBalance(!showBalance)} className="text-white/30 hover:text-white transition-colors">{showBalance ? <Eye size={14} /> : <EyeOff size={14} />}</button>
                                     </p>
                                 </div>
-                                <div className="bg-black/40 backdrop-blur-xl rounded-full p-1 flex border border-white/10 scale-90 sm:scale-100 origin-right">
+                                <div className="bg-black/40 backdrop-blur-2xl rounded-2xl p-1 flex border border-white/5 scale-90 sm:scale-100 origin-right">
                                     {['ngn', 'usd', 'crypto'].map((w) => (
-                                        <button key={w} onClick={() => setActiveWallet(w as any)} className={`px-3 sm:px-4 py-1 rounded-full text-[8px] sm:text-[9px] font-black uppercase transition-all ${activeWallet === w ? 'bg-white text-slate-950 shadow-xl' : 'text-white/40'}`}>{w}</button>
+                                        <button key={w} onClick={() => setActiveWallet(w as any)} className={`px-4 sm:px-5 py-1.5 rounded-xl text-[8px] sm:text-[9px] font-black uppercase tracking-widest transition-all ${activeWallet === w ? 'bg-white text-slate-950 shadow-xl' : 'text-white/30 hover:text-white/60'}`}>{w}</button>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="mt-6 mb-6">
-                                <h2 className="font-mono font-black text-3xl xs:text-4xl sm:text-5xl md:text-6xl tracking-tighter text-white flex flex-wrap items-baseline gap-2">
-                                    {showBalance ? (
-                                        <>
-                                            {activeWallet !== 'crypto' && <span className={`text-base sm:text-2xl font-sans font-medium opacity-70 ${displayData.accent}`}>{displayData.currency}</span>}
-                                            <span className="truncate max-w-full">{displayData.balance}</span>
-                                            {activeWallet === 'crypto' && <span className={`text-base sm:text-2xl font-sans font-medium opacity-70 ${displayData.accent}`}>{displayData.currency}</span>}
-                                        </>
-                                    ) : '••••••••'}
-                                </h2>
+                            <div className="mt-8">
+                                <div className="flex items-baseline gap-3">
+                                    <h2 className="font-mono font-black text-4xl xs:text-5xl sm:text-6xl md:text-7xl tracking-tighter text-white flex flex-wrap items-baseline gap-1">
+                                        {showBalance ? (
+                                            <>
+                                                {activeWallet !== 'crypto' && <span className={`text-xl sm:text-3xl font-sans font-medium opacity-40 ${displayData.accent}`}>{displayData.currency}</span>}
+                                                <span className="truncate max-w-full">{displayData.balance}</span>
+                                                {activeWallet === 'crypto' && <span className={`text-xl sm:text-3xl font-sans font-medium opacity-40 ${displayData.accent}`}>{displayData.currency}</span>}
+                                            </>
+                                        ) : '••••••••'}
+                                    </h2>
+                                </div>
                                 
                                 {showBalance && (
-                                    <div className="flex flex-wrap items-center gap-2 mt-2">
-                                        {activeWallet === 'crypto' && <p className="text-white/80 text-[10px] sm:text-xs font-bold bg-black/20 px-2 py-1 rounded-lg backdrop-blur-sm">{displayData.subValue}</p>}
+                                    <div className="flex flex-wrap items-center gap-3 mt-4">
+                                        {activeWallet === 'crypto' && (
+                                            <div className="bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl">
+                                                <p className="text-white/70 text-[10px] sm:text-xs font-black uppercase tracking-widest">{displayData.subValue}</p>
+                                            </div>
+                                        )}
                                         {activeWallet === 'ngn' && (
-                                            <div className="inline-flex items-center gap-2 bg-emerald-500/10 px-2 py-1 rounded-lg border border-emerald-500/20">
-                                                <span className="text-emerald-400 text-[8px] font-black uppercase tracking-widest">ID:</span>
-                                                <span className="font-mono text-white font-bold text-[10px] sm:text-xs">{accountNumber}</span>
+                                            <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10">
+                                                <span className="text-white/40 text-[9px] font-black uppercase tracking-widest">Hub ID:</span>
+                                                <span className="font-mono text-white font-bold text-[10px] sm:text-xs tracking-wider">{accountNumber}</span>
                                             </div>
                                         )}
                                     </div>
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-2 xs:grid-cols-3 gap-2 sm:gap-4">
-                                <button onClick={() => activeWallet === 'crypto' ? setShowReceiveModal(true) : onChangeTab('fund')} className="bg-white/10 active:scale-95 py-3 sm:py-4 rounded-xl font-bold text-[10px] sm:text-xs text-white transition-all flex items-center justify-center gap-2 border border-white/5 truncate px-1">
-                                   {activeWallet === 'crypto' ? <ArrowDownLeft size={14} className={displayData.accent} /> : <Plus size={14} className={displayData.accent} />} 
+                            <div className="grid grid-cols-2 xs:grid-cols-3 gap-3 sm:gap-4 mt-10">
+                                <button onClick={() => activeWallet === 'crypto' ? setShowReceiveModal(true) : onChangeTab('fund')} className="bg-white/5 hover:bg-white/10 active:scale-95 py-4 sm:py-5 rounded-2xl font-black text-[10px] sm:text-xs text-white transition-all flex items-center justify-center gap-3 border border-white/5 truncate px-2 uppercase tracking-widest">
+                                   {activeWallet === 'crypto' ? <ArrowDownLeft size={16} className={displayData.accent} /> : <Plus size={16} className={displayData.accent} />} 
                                    {activeWallet === 'crypto' ? 'Receive' : 'Fund'}
                                 </button>
-                                <button className="bg-white/10 active:scale-95 py-3 sm:py-4 rounded-xl font-bold text-[10px] sm:text-xs text-white transition-all flex items-center justify-center gap-2 border border-white/5 truncate px-1">
-                                   <ArrowUpRight size={14} className={displayData.accent} /> Send
+                                <button onClick={() => onChangeTab('send')} className="bg-white/5 hover:bg-white/10 active:scale-95 py-4 sm:py-5 rounded-2xl font-black text-[10px] sm:text-xs text-white transition-all flex items-center justify-center gap-3 border border-white/5 truncate px-2 uppercase tracking-widest">
+                                   <ArrowUpRight size={16} className={displayData.accent} /> Send
                                 </button>
-                                <button onClick={() => onChangeTab('trade')} className="col-span-2 xs:col-span-1 bg-white text-slate-950 active:scale-95 py-3 sm:py-4 rounded-xl font-black uppercase text-[10px] transition-all flex items-center justify-center gap-2 shadow-lg">
-                                   <Repeat size={14} /> Swap
+                                <button onClick={() => onChangeTab('trade')} className="col-span-2 xs:col-span-1 bg-white text-slate-950 hover:bg-slate-100 active:scale-95 py-4 sm:py-5 rounded-2xl font-black uppercase text-[10px] sm:text-xs transition-all flex items-center justify-center gap-3 shadow-2xl tracking-widest">
+                                   <Repeat size={16} /> Swap
                                 </button>
                             </div>
                         </div>
@@ -299,7 +316,7 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
                 <div className="bg-gradient-to-br from-indigo-900/40 via-dark-900 to-dark-900 border border-white/5 rounded-[2rem] p-5 sm:p-6 relative overflow-hidden flex flex-col justify-between group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-3xl rounded-full" />
                     <div>
-                         <h3 className="text-xl sm:text-2xl font-black text-white italic uppercase tracking-tighter mb-2">Upgrade Node</h3>
+                         <h3 className="text-xl sm:text-2xl font-black text-white italic uppercase tracking-tighter mb-2">Upgrade Account</h3>
                          <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-xs mb-6">Verify BVN/NIN to unlock $100,000 monthly limits and metal cards.</p>
                     </div>
                     <button className="w-full py-4 bg-indigo-600 text-white rounded-xl font-black uppercase text-[10px] tracking-widest shadow-xl group-hover:bg-indigo-500 transition-all">Start Verification</button>

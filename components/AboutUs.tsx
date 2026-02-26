@@ -57,7 +57,7 @@ export const AboutUs: React.FC = () => {
                        <div className="absolute top-0 right-0 w-24 h-24 bg-electric-500/5 blur-2xl rounded-full" />
                        <Globe className="w-6 h-6 sm:w-8 sm:h-8 text-electric-400 mb-4 sm:mb-6 group-hover:scale-110 transition-transform" />
                        <h4 className="font-black text-white mb-1 sm:mb-2 uppercase italic tracking-tighter text-base sm:text-lg">Borderless</h4>
-                       <p className="text-[10px] sm:text-xs text-slate-500 font-medium">Global access without geographical node boundaries.</p>
+                       <p className="text-[10px] sm:text-xs text-slate-500 font-medium">Global access without geographical boundaries.</p>
                     </div>
                     <div className="bg-gradient-to-br from-brand-500 to-brand-700 p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] shadow-2xl text-slate-950 group">
                        <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-white mb-4 sm:mb-6 group-hover:scale-110 transition-transform" />

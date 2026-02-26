@@ -162,7 +162,7 @@ export const MerchantDashboard: React.FC<MerchantDashboardProps> = ({ onLogout }
                    <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold shadow-lg flex-shrink-0">FC</div>
                    <div className="overflow-hidden">
                       <p className="text-xs font-bold text-white truncate">Flash Cafe Ltd.</p>
-                      <p className="text-[9px] text-emerald-400 font-mono tracking-tighter uppercase font-black">Node #TK-04-A</p>
+                      <p className="text-[9px] text-emerald-400 font-mono tracking-tighter uppercase font-black">Hub #TK-04-A</p>
                    </div>
                 </div>
             </div>
@@ -243,7 +243,7 @@ const SalesHistory = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
                     <h2 className="text-3xl sm:text-4xl font-display font-black text-white uppercase italic tracking-tighter">Audit Ledger</h2>
-                    <p className="text-slate-500 text-xs sm:text-sm font-medium">Full transaction history for this terminal node.</p>
+                    <p className="text-slate-500 text-xs sm:text-sm font-medium">Full transaction history for this terminal.</p>
                 </div>
                 <Button variant="outline" className="w-full md:w-auto border-white/10 text-[10px] uppercase font-black"><Download size={14} className="mr-2" /> Export Ledger</Button>
             </div>
@@ -427,7 +427,7 @@ const BusinessWallet = ({ onOpenFund }: { onOpenFund: () => void }) => {
                 {/* Account Details Panel */}
                 <div className="bg-slate-900 border border-white/10 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 flex flex-col justify-between gap-6">
                     <div>
-                        <h3 className="font-black text-white text-xs sm:text-sm uppercase tracking-widest mb-6">Business Payout Node</h3>
+                        <h3 className="font-black text-white text-xs sm:text-sm uppercase tracking-widest mb-6">Business Payout Hub</h3>
                         <div className="space-y-4 sm:space-y-6">
                             <div className="bg-slate-950 border border-white/5 rounded-2xl p-4 sm:p-5">
                                 <p className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Primary Bank Account</p>
@@ -440,7 +440,7 @@ const BusinessWallet = ({ onOpenFund }: { onOpenFund: () => void }) => {
                             <div className="bg-slate-950 border border-white/5 rounded-2xl p-4 sm:p-5">
                                 <p className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Liquidation Tier</p>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-xs sm:text-sm font-bold text-white uppercase italic">Elite T+0 Node</span>
+                                    <span className="text-xs sm:text-sm font-bold text-white uppercase italic">Elite T+0 Hub</span>
                                     <ShieldCheck size={16} sm:size={18} className="text-emerald-400 flex-shrink-0" />
                                 </div>
                             </div>
@@ -520,7 +520,7 @@ const CorporateCards = () => {
                         <div className="divide-y divide-white/5">
                             {[
                                 { name: 'Logistics Gas', last4: '8821', status: 'active', icon: '🚛' },
-                                { name: 'Ads Node', last4: '2938', status: 'active', icon: '🌐' },
+                                { name: 'Ads Hub', last4: '2938', status: 'active', icon: '🌐' },
                                 { name: 'Kitchen', last4: '4491', status: 'frozen', icon: '👨‍🍳' },
                             ].map((card, i) => (
                                 <div key={i} className="p-4 sm:p-6 flex items-center justify-between hover:bg-white/5 transition-all cursor-pointer group">
@@ -833,12 +833,15 @@ const PointOfSale = ({ onOpenFund }: { onOpenFund: () => void }) => {
                     </motion.button>
 
                     {products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).map(product => (
-                        <motion.button
+                        <motion.div
                             key={product.id}
                             whileHover={{ y: -4, scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => addToCart(product)}
-                            className="bg-slate-900 border border-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-5 text-left group hover:border-emerald-500/30 transition-all shadow-xl relative overflow-hidden min-h-[140px] sm:min-h-[180px]"
+                            className="bg-slate-900 border border-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-5 text-left group hover:border-emerald-500/30 transition-all shadow-xl relative overflow-hidden min-h-[140px] sm:min-h-[180px] cursor-pointer"
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') addToCart(product); }}
                         >
                             <div className="absolute top-2 right-4 text-[8px] sm:text-[10px] font-black text-white/10 group-hover:text-emerald-500/20 transition-colors uppercase italic">{product.category}</div>
                             <div className="absolute bottom-3 right-3 flex gap-1.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all translate-y-0 sm:translate-y-2 sm:group-hover:translate-y-0">
@@ -860,7 +863,7 @@ const PointOfSale = ({ onOpenFund }: { onOpenFund: () => void }) => {
                             </div>
                             <h4 className="font-bold text-white text-xs sm:text-base mb-1 tracking-tight pr-6 sm:pr-8 truncate">{product.name}</h4>
                             <p className="text-emerald-400 font-mono text-[10px] sm:text-sm font-black">₦{product.price.toLocaleString()}</p>
-                        </motion.button>
+                        </motion.div>
                     ))}
                 </div>
 
@@ -965,7 +968,7 @@ const PointOfSale = ({ onOpenFund }: { onOpenFund: () => void }) => {
                                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col items-center justify-center text-slate-700 space-y-4 py-20">
                                         <ShoppingCart size={48} className="opacity-10" />
                                         <p className="text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">Terminal Idle</p>
-                                        <button onClick={onOpenFund} className="text-emerald-400 text-xs font-black uppercase tracking-widest hover:underline">Fund Node Portfolio</button>
+                                        <button onClick={onOpenFund} className="text-emerald-400 text-xs font-black uppercase tracking-widest hover:underline">Fund Portfolio</button>
                                     </motion.div>
                                 ) : (
                                     <>
@@ -1194,7 +1197,7 @@ const PointOfSale = ({ onOpenFund }: { onOpenFund: () => void }) => {
                                                 <div className="w-full max-w-md space-y-6 sm:space-y-8 text-left">
                                                     <div className="bg-slate-950 border border-white/10 rounded-2xl sm:rounded-[3rem] p-6 sm:p-10 space-y-6 sm:space-y-8 shadow-inner">
                                                         <div>
-                                                            <label className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] block mb-3 sm:mb-4">Node Account</label>
+                                                            <label className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] block mb-3 sm:mb-4">Settlement Account</label>
                                                             <div className="flex items-center justify-between bg-white/5 p-4 sm:p-5 rounded-xl sm:rounded-[2rem] border border-white/5 overflow-hidden">
                                                                 <span className="text-xl sm:text-3xl font-mono font-black text-white truncate">8812930291</span>
                                                                 <Copy size={16} sm:size={20} className="text-slate-400 flex-shrink-0 ml-2" />
