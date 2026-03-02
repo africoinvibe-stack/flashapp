@@ -18,7 +18,8 @@ import {
   QrCode,
   SmartphoneNfc,
   PlusCircle,
-  Globe
+  Globe,
+  TrendingUp
 } from 'lucide-react';
 import { ChatWidget } from './ChatWidget';
 
@@ -34,12 +35,14 @@ import { FlashPay } from './dashboard/FlashPay';
 import { AddCash } from './dashboard/AddCash';
 import { SendMoney } from './dashboard/SendMoney';
 import { ForexFunding } from './dashboard/ForexFunding';
+import { InvestmentSavings } from './dashboard/InvestmentSavings';
+import { GlobalOnramp } from './dashboard/GlobalOnramp';
 
 interface DashboardProps {
   onLogout: () => void;
 }
 
-type Tab = 'overview' | 'bills' | 'cards' | 'trade' | 'agents' | 'help' | 'settings' | 'pay' | 'fund' | 'send' | 'forex';
+type Tab = 'overview' | 'bills' | 'cards' | 'trade' | 'agents' | 'help' | 'settings' | 'pay' | 'fund' | 'send' | 'forex' | 'invest' | 'onramp';
 
 export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
@@ -52,6 +55,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     { id: 'pay', label: 'Flash Pay', icon: <SmartphoneNfc size={20} /> },
     { id: 'bills', label: 'Lifestyle & Bills', icon: <Smartphone size={20} /> },
     { id: 'cards', label: 'Virtual Card', icon: <CreditCard size={20} /> },
+    { id: 'invest', label: 'Invest & Save', icon: <TrendingUp size={20} /> },
     { id: 'forex', label: 'Forex Funding', icon: <Globe size={20} /> },
     { id: 'trade', label: 'P2P Trading', icon: <ArrowLeftRight size={20} /> },
     { id: 'agents', label: 'Cash Points', icon: <Users size={20} /> },
@@ -66,9 +70,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       case 'fund': return <AddCash onBack={() => setActiveTab('overview')} />;
       case 'send': return <SendMoney onBack={() => setActiveTab('overview')} />;
       case 'forex': return <ForexFunding onBack={() => setActiveTab('overview')} />;
+      case 'invest': return <InvestmentSavings />;
+      case 'onramp': return <GlobalOnramp onBack={() => setActiveTab('overview')} onSuccess={(amt) => console.log(`Bought ${amt} USDT`)} />;
       case 'bills': return <BillPayment />;
       case 'cards': return <WalletCards />;
-      case 'trade': return <TradeHub />;
+      case 'trade': return <TradeHub onChangeTab={setActiveTab} />;
       case 'agents': return <AgentCenter />;
       case 'settings': return <SettingsPage />;
       case 'help': return <HelpSupport />;
@@ -147,6 +153,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                      activeTab === 'fund' ? 'Add Cash' :
                      activeTab === 'send' ? 'Send Money' :
                      activeTab === 'forex' ? 'Forex Broker Funding' :
+                     activeTab === 'onramp' ? 'Global Stablecoin Onramp' :
                      activeTab.replace('-', ' ')}
                 </h1>
             </div>

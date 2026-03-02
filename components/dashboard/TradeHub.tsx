@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeftRight, Users, Briefcase, ChevronRight, ChevronDown, Filter, Search, ShieldCheck, Gem, CheckCircle2, Lock, Zap, Star, Trophy, Clock, Bot, Sparkles, X, Loader2, Wallet, Check, TrendingDown, ThumbsUp, Plus, Edit2, Trash2, Power, Eye, Calendar, DollarSign, MessageSquare, AlertCircle } from 'lucide-react';
+import { ArrowLeftRight, Users, Briefcase, ChevronRight, ChevronDown, Filter, Search, ShieldCheck, Gem, CheckCircle2, Lock, Zap, Star, Trophy, Clock, Bot, Sparkles, X, Loader2, Wallet, Check, TrendingDown, ThumbsUp, Plus, Edit2, Trash2, Power, Eye, Calendar, DollarSign, MessageSquare, AlertCircle, Globe } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export const TradeHub: React.FC = () => {
+interface TradeHubProps {
+    onChangeTab?: (tab: any) => void;
+}
+
+export const TradeHub: React.FC<TradeHubProps> = ({ onChangeTab }) => {
     const [mode, setMode] = useState<'swap' | 'p2p' | 'otc'>('p2p');
     const [p2pView, setP2pView] = useState<'market' | 'my_ads' | 'post_ad' | 'history'>('market');
     const [p2pType, setP2pType] = useState<'buy' | 'sell'>('buy');
+    const [p2pCurrency, setP2pCurrency] = useState<'NGN' | 'USDT'>('NGN');
     const [p2pAmount, setP2pAmount] = useState('');
+    const [p2pPaymentMethod, setP2pPaymentMethod] = useState<'Naira' | 'USDT'>('Naira');
     const [isSearching, setIsSearching] = useState(false);
     const [showMatches, setShowMatches] = useState(false);
     const [selectedToken, setSelectedToken] = useState({ symbol: 'USDT', name: 'Tether', icon: '₮', rate: 1155.50 });
@@ -62,9 +68,14 @@ export const TradeHub: React.FC = () => {
     };
 
     const topMatches = [
-        { id: 1, user: 'CryptoKing_99', verified: true, completion: '99.8%', price: '1,155.50', limit: '5k - 5M', speed: '2 mins', badge: 'Best Price' },
-        { id: 2, user: 'FastLane_Lagos', verified: true, completion: '100%', price: '1,158.20', limit: '10k - 500k', speed: '30 secs', badge: 'Fastest' },
+        { id: 1, user: 'CryptoKing_99', verified: true, completion: '99.8%', price: p2pCurrency === 'NGN' ? '1,155.50' : '1.00', limit: p2pCurrency === 'NGN' ? '5k - 5M' : '10 - 5k', speed: '2 mins', badge: 'Best Price' },
+        { id: 2, user: 'FastLane_Lagos', verified: true, completion: '100%', price: p2pCurrency === 'NGN' ? '1,158.20' : '1.01', limit: p2pCurrency === 'NGN' ? '10k - 500k' : '50 - 2k', speed: '30 secs', badge: 'Fastest' },
     ];
+
+    const walletBalances = {
+        NGN: '8,450,200.00',
+        USDT: '1,250.00'
+    };
 
     const numericAmount = parseFloat(p2pAmount.replace(/,/g, '')) || 0;
     const convertedValue = (numericAmount / selectedToken.rate).toLocaleString(undefined, { maximumFractionDigits: 4 });
@@ -82,10 +93,45 @@ export const TradeHub: React.FC = () => {
 
             {mode === 'p2p' && (
                 <div className="space-y-6">
-                    <div className="flex items-center gap-1 bg-dark-900 p-1 rounded-xl border border-white/5 w-full sm:w-fit overflow-x-auto no-scrollbar">
-                        {['market', 'my_ads', 'post_ad', 'history'].map(v => (
-                            <button key={v} onClick={() => setP2pView(v as any)} className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all ${p2pView === v ? 'bg-white/10 text-white' : 'text-slate-500 hover:text-white'}`}>{v.replace('_', ' ')}</button>
+                    {/* Highlighted Wallet Balances */}
+                    <div className="grid grid-cols-2 gap-4">
+                        {Object.entries(walletBalances).map(([cur, bal]) => (
+                            <div key={cur} className={`relative overflow-hidden p-6 rounded-[2rem] border transition-all ${cur === 'NGN' ? 'bg-brand-500/10 border-brand-500/20 shadow-lg shadow-brand-500/5' : 'bg-emerald-500/10 border-emerald-500/20 shadow-lg shadow-emerald-500/5'}`}>
+                                <div className={`absolute top-0 right-0 w-24 h-24 blur-3xl opacity-20 rounded-full ${cur === 'NGN' ? 'bg-brand-500' : 'bg-emerald-500'}`} />
+                                <div className="relative z-10 flex flex-col gap-2">
+                                    <div className="flex items-center gap-2">
+                                        <div className={`w-2 h-2 rounded-full animate-pulse ${cur === 'NGN' ? 'bg-brand-400' : 'bg-emerald-400'}`} />
+                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{cur} Wallet</span>
+                                    </div>
+                                    <span className="text-2xl font-mono font-black text-white tracking-tighter">
+                                        {cur === 'NGN' ? '₦' : ''}{bal}
+                                        {cur !== 'NGN' && <span className="text-xs ml-2 opacity-40">{cur}</span>}
+                                    </span>
+                                </div>
+                            </div>
                         ))}
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-4">
+                        <div className="flex items-center gap-1 bg-dark-900 p-1.5 rounded-2xl border border-white/5 w-full sm:w-fit overflow-x-auto no-scrollbar shadow-inner">
+                            {['market', 'my_ads', 'post_ad', 'history'].map(v => (
+                                <button key={v} onClick={() => setP2pView(v as any)} className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${p2pView === v ? 'bg-white/10 text-white shadow-lg' : 'text-slate-500 hover:text-white'}`}>{v.replace('_', ' ')}</button>
+                            ))}
+                        </div>
+
+                        {p2pView === 'market' && (
+                            <div className="flex items-center gap-2 bg-dark-950 p-1.5 rounded-2xl border border-white/10 shadow-inner">
+                                {['NGN', 'USDT'].map(cur => (
+                                    <button 
+                                        key={cur} 
+                                        onClick={() => setP2pCurrency(cur as any)}
+                                        className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${p2pCurrency === cur ? 'bg-brand-500 text-slate-950 shadow-lg shadow-brand-500/20' : 'text-slate-500 hover:text-white'}`}
+                                    >
+                                        {cur}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {p2pView === 'market' && (
@@ -107,7 +153,9 @@ export const TradeHub: React.FC = () => {
                                                 placeholder="Enter Amount"
                                                 className="w-full bg-dark-950 border border-white/10 rounded-2xl px-12 sm:px-16 py-5 sm:py-6 text-xl sm:text-3xl font-mono text-center text-white focus:border-white/20 transition-all placeholder-white/5 outline-none"
                                             />
-                                            <div className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-xl text-slate-600 font-display italic">₦</div>
+                                            <div className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 text-xl text-slate-600 font-display italic">
+                                                {p2pCurrency === 'NGN' ? '₦' : '₮'}
+                                            </div>
                                             <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2">
                                                 <button className="bg-white/5 hover:bg-white/10 rounded-xl px-3 py-2 flex items-center gap-2 border border-white/5 transition-all">
                                                     <span className="text-[10px] font-black text-white">{selectedToken.symbol}</span>
@@ -125,17 +173,25 @@ export const TradeHub: React.FC = () => {
                             <div className="bg-dark-900 border border-white/5 rounded-[1.5rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl">
                                 <div className="p-5 sm:p-8 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                     <h3 className="text-lg font-black text-white uppercase italic tracking-tighter">Market Liquidity</h3>
+                                    {onChangeTab && (
+                                        <button 
+                                            onClick={() => onChangeTab('onramp')}
+                                            className="flex items-center gap-2 px-4 py-2 bg-brand-500/10 border border-brand-500/20 rounded-xl text-brand-400 text-[10px] font-black uppercase tracking-widest hover:bg-brand-500/20 transition-all"
+                                        >
+                                            <Globe size={14} /> Buy Stablecoins (Global)
+                                        </button>
+                                    )}
                                 </div>
                                 <div className="overflow-x-auto custom-scrollbar no-scrollbar-mobile">
                                     <table className="w-full text-left border-collapse min-w-[600px]">
                                         <thead className="bg-dark-950/50 text-[9px] font-black text-slate-500 uppercase tracking-[0.2em]">
-                                            <tr><th className="px-6 py-5">Hub</th><th className="px-6 py-5">Rate</th><th className="px-6 py-5">Limit</th><th className="px-6 py-5 text-right">Action</th></tr>
+                                            <tr><th className="px-6 py-5">Hub</th><th className="px-6 py-5">Rate ({p2pCurrency})</th><th className="px-6 py-5">Limit</th><th className="px-6 py-5 text-right">Action</th></tr>
                                         </thead>
                                         <tbody className="divide-y divide-white/5">
                                             {(showMatches ? topMatches : topMatches).map((offer: any) => (
                                                 <tr key={offer.id} className="hover:bg-white/5 transition-all">
                                                     <td className="px-6 py-5"><div className="flex items-center gap-3"><div className="w-9 h-9 rounded-xl bg-dark-800 border border-white/5 flex items-center justify-center text-xs font-black text-slate-500">{offer.user.charAt(0)}</div><div><p className="font-black text-white text-xs uppercase italic truncate">{offer.user}</p><p className="text-[9px] text-slate-500 font-mono">{offer.completion} SUCCESS</p></div></div></td>
-                                                    <td className="px-6 py-5"><p className="font-mono font-black text-sm text-white">₦{offer.price}</p></td>
+                                                    <td className="px-6 py-5"><p className="font-mono font-black text-sm text-white">{p2pCurrency === 'NGN' ? '₦' : ''}{offer.price}</p></td>
                                                     <td className="px-6 py-5"><p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{offer.limit}</p></td>
                                                     <td className="px-6 py-5 text-right"><button onClick={() => setSelectedOffer(offer)} className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${p2pType === 'buy' ? 'bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20' : 'bg-red-500 text-white shadow-lg shadow-red-500/20'}`}>{p2pType}</button></td>
                                                 </tr>
@@ -188,17 +244,28 @@ export const TradeHub: React.FC = () => {
                                         </div>
 
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Your Price (₦)</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Payment Currency</label>
+                                            <div className="relative">
+                                                <select value={adForm.currency} onChange={(e) => setAdForm({...adForm, currency: e.target.value})} className="w-full bg-dark-950 border border-white/10 rounded-xl px-4 py-3 text-white text-sm font-bold appearance-none focus:border-brand-500 outline-none">
+                                                    <option>NGN</option>
+                                                    <option>USDT</option>
+                                                </select>
+                                                <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Your Price ({adForm.currency})</label>
                                             <input type="number" value={adForm.price} onChange={(e) => setAdForm({...adForm, price: e.target.value})} className="w-full bg-dark-950 border border-white/10 rounded-xl px-4 py-3 text-white font-mono font-bold focus:border-brand-500 outline-none" />
                                         </div>
 
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Min Limit (₦)</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Min Limit ({adForm.currency})</label>
                                             <input type="number" value={adForm.minLimit} onChange={(e) => setAdForm({...adForm, minLimit: e.target.value})} className="w-full bg-dark-950 border border-white/10 rounded-xl px-4 py-3 text-white font-mono font-bold focus:border-brand-500 outline-none" />
                                         </div>
 
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Max Limit (₦)</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Max Limit ({adForm.currency})</label>
                                             <input type="number" value={adForm.maxLimit} onChange={(e) => setAdForm({...adForm, maxLimit: e.target.value})} className="w-full bg-dark-950 border border-white/10 rounded-xl px-4 py-3 text-white font-mono font-bold focus:border-brand-500 outline-none" />
                                         </div>
                                     </div>
@@ -289,14 +356,31 @@ export const TradeHub: React.FC = () => {
                                 <p className="text-slate-500 text-xs mt-2 uppercase font-black">Executing via Flash Protocol</p>
                              </div>
                              
-                             <div className="bg-dark-950 rounded-2xl p-6 border border-white/5 mb-8">
-                                <div className="flex justify-between items-center mb-4">
+                              <div className="bg-dark-950 rounded-2xl p-6 border border-white/5 mb-8 space-y-4">
+                                <div className="flex justify-between items-center">
                                     <span className="text-[10px] font-black text-slate-500 uppercase">Partner</span>
                                     <span className="text-white font-bold text-sm uppercase italic">{selectedOffer.user}</span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-[10px] font-black text-slate-500 uppercase">Rate</span>
-                                    <span className="text-emerald-400 font-mono font-bold text-sm">₦{selectedOffer.price}</span>
+                                    <span className="text-emerald-400 font-mono font-bold text-sm">{p2pCurrency === 'NGN' ? '₦' : ''}{selectedOffer.price} {p2pCurrency !== 'NGN' ? p2pCurrency : ''}</span>
+                                </div>
+                                <div className="pt-4 border-t border-white/5">
+                                    <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-3">Preferred Payment Method</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button 
+                                            onClick={() => setP2pPaymentMethod('Naira')}
+                                            className={`py-2 rounded-lg text-[9px] font-black uppercase transition-all ${p2pPaymentMethod === 'Naira' ? 'bg-brand-500 text-slate-950' : 'bg-white/5 text-slate-500'}`}
+                                        >
+                                            Naira
+                                        </button>
+                                        <button 
+                                            onClick={() => setP2pPaymentMethod('USDT')}
+                                            className={`py-2 rounded-lg text-[9px] font-black uppercase transition-all ${p2pPaymentMethod === 'USDT' ? 'bg-emerald-500 text-slate-950' : 'bg-white/5 text-slate-500'}`}
+                                        >
+                                            USDT
+                                        </button>
+                                    </div>
                                 </div>
                              </div>
                              

@@ -139,15 +139,26 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
             icon: <Globe className="text-white/80" size={24} />,
             btn: "Fund",
             action: () => onChangeTab('forex')
+        },
+        { 
+            id: 4,
+            title: "Buy Stablecoins", 
+            desc: "Buy USDT with Card (Global).", 
+            color: "from-brand-500 to-orange-600",
+            icon: <Zap className="text-white/80" size={24} />,
+            btn: "Buy",
+            action: () => onChangeTab('onramp')
         }
     ];
 
+    const activePromos = promos.filter(p => p.id !== 4 || activeWallet !== 'ngn');
+
     useEffect(() => {
         const timer = setInterval(() => {
-            setPromoIndex((prev) => (prev + 1) % promos.length);
+            setPromoIndex((prev) => (prev + 1) % activePromos.length);
         }, 5000);
         return () => clearInterval(timer);
-    }, []);
+    }, [activePromos.length]);
 
     const activeConfig = walletConfig[activeWallet];
     const displayData = (activeWallet === 'crypto' && selectedToken) ? {
@@ -224,7 +235,7 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
                                         )}
                                         {activeWallet === 'ngn' && (
                                             <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10">
-                                                <span className="text-white/40 text-[9px] font-black uppercase tracking-widest">Hub ID:</span>
+                                                <span className="text-white/40 text-[9px] font-black uppercase tracking-widest">Account Number:</span>
                                                 <span className="font-mono text-white font-bold text-[10px] sm:text-xs tracking-wider">{accountNumber}</span>
                                             </div>
                                         )}
@@ -232,7 +243,12 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-2 xs:grid-cols-3 gap-3 sm:gap-4 mt-10">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-10">
+                                {activeWallet !== 'ngn' && (
+                                    <button onClick={() => onChangeTab('onramp')} className="bg-white/5 hover:bg-white/10 active:scale-95 py-4 sm:py-5 rounded-2xl font-black text-[10px] sm:text-xs text-white transition-all flex items-center justify-center gap-3 border border-white/5 truncate px-2 uppercase tracking-widest">
+                                       <Globe size={16} className={displayData.accent} /> Buy Stablecoins
+                                    </button>
+                                )}
                                 <button onClick={() => activeWallet === 'crypto' ? setShowReceiveModal(true) : onChangeTab('fund')} className="bg-white/5 hover:bg-white/10 active:scale-95 py-4 sm:py-5 rounded-2xl font-black text-[10px] sm:text-xs text-white transition-all flex items-center justify-center gap-3 border border-white/5 truncate px-2 uppercase tracking-widest">
                                    {activeWallet === 'crypto' ? <ArrowDownLeft size={16} className={displayData.accent} /> : <Plus size={16} className={displayData.accent} />} 
                                    {activeWallet === 'crypto' ? 'Receive' : 'Fund'}
@@ -240,7 +256,7 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
                                 <button onClick={() => onChangeTab('send')} className="bg-white/5 hover:bg-white/10 active:scale-95 py-4 sm:py-5 rounded-2xl font-black text-[10px] sm:text-xs text-white transition-all flex items-center justify-center gap-3 border border-white/5 truncate px-2 uppercase tracking-widest">
                                    <ArrowUpRight size={16} className={displayData.accent} /> Send
                                 </button>
-                                <button onClick={() => onChangeTab('trade')} className="col-span-2 xs:col-span-1 bg-white text-slate-950 hover:bg-slate-100 active:scale-95 py-4 sm:py-5 rounded-2xl font-black uppercase text-[10px] sm:text-xs transition-all flex items-center justify-center gap-3 shadow-2xl tracking-widest">
+                                <button onClick={() => onChangeTab('trade')} className="bg-white text-slate-950 hover:bg-slate-100 active:scale-95 py-4 sm:py-5 rounded-2xl font-black uppercase text-[10px] sm:text-xs transition-all flex items-center justify-center gap-3 shadow-2xl tracking-widest">
                                    <Repeat size={16} /> Swap
                                 </button>
                             </div>
@@ -287,6 +303,42 @@ export const Overview: React.FC<OverviewProps> = ({ onChangeTab }) => {
                             </button>
                         </div>
                     )}
+                </div>
+            </div>
+
+            {/* Promo Carousel */}
+            <div className="relative h-24 sm:h-28 overflow-hidden rounded-[2rem]">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activePromos[promoIndex]?.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className={`absolute inset-0 bg-gradient-to-r ${activePromos[promoIndex]?.color} p-5 sm:p-6 flex items-center justify-between`}
+                    >
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center">
+                                {activePromos[promoIndex]?.icon}
+                            </div>
+                            <div>
+                                <h4 className="text-white font-black text-xs sm:text-sm uppercase italic tracking-tighter">{activePromos[promoIndex]?.title}</h4>
+                                <p className="text-white/70 text-[10px] sm:text-xs uppercase font-black tracking-widest">{activePromos[promoIndex]?.desc}</p>
+                            </div>
+                        </div>
+                        <button 
+                            onClick={activePromos[promoIndex]?.action}
+                            className="px-6 py-2 bg-white text-slate-950 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl active:scale-95 transition-transform"
+                        >
+                            {activePromos[promoIndex]?.btn}
+                        </button>
+                    </motion.div>
+                </AnimatePresence>
+                
+                {/* Carousel Indicators */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {activePromos.map((_, i) => (
+                        <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i === promoIndex ? 'bg-white w-4' : 'bg-white/30'}`} />
+                    ))}
                 </div>
             </div>
 

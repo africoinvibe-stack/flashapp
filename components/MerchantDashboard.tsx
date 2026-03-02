@@ -72,12 +72,14 @@ import { CardVisual } from './CardVisual';
 import { TradeHub } from './dashboard/TradeHub';
 import { AgentCenter } from './dashboard/AgentCenter';
 import { AddCash } from './dashboard/AddCash';
+import { InvestmentSavings } from './dashboard/InvestmentSavings';
+import { GlobalOnramp } from './dashboard/GlobalOnramp';
 
 interface MerchantDashboardProps {
   onLogout: () => void;
 }
 
-type Tab = 'pos' | 'wallet' | 'cards' | 'utilities' | 'sales' | 'team' | 'settings' | 'p2p' | 'agents' | 'fund';
+type Tab = 'pos' | 'wallet' | 'cards' | 'utilities' | 'sales' | 'team' | 'settings' | 'p2p' | 'agents' | 'fund' | 'invest' | 'onramp';
 
 interface Product {
   id: string;
@@ -111,6 +113,7 @@ export const MerchantDashboard: React.FC<MerchantDashboardProps> = ({ onLogout }
     { id: 'agents', label: 'Agent Services', icon: <Users size={20} /> },
     { id: 'cards', label: 'Corporate Cards', icon: <CreditCard size={20} /> },
     { id: 'utilities', label: 'Store Utilities', icon: <Zap size={20} /> },
+    { id: 'invest', label: 'Invest & Save', icon: <TrendingUp size={20} /> },
     { id: 'sales', label: 'Audit Ledger', icon: <History size={20} /> },
     { id: 'team', label: 'Staff Hub', icon: <Users size={20} /> },
     { id: 'settings', label: 'Identity', icon: <Settings size={20} /> },
@@ -220,8 +223,10 @@ export const MerchantDashboard: React.FC<MerchantDashboardProps> = ({ onLogout }
                 {activeTab === 'sales' && <SalesHistory />}
                 {activeTab === 'team' && <TeamManagement />}
                 {activeTab === 'settings' && <StoreSettings />}
-                {activeTab === 'p2p' && <div className="p-4 sm:p-8 lg:p-12 h-full"><TradeHub /></div>}
+                {activeTab === 'p2p' && <div className="p-4 sm:p-8 lg:p-12 h-full"><TradeHub onChangeTab={setActiveTab} /></div>}
                 {activeTab === 'agents' && <div className="p-4 sm:p-8 lg:p-12 h-full"><AgentCenter /></div>}
+                {activeTab === 'invest' && <div className="p-4 sm:p-8 lg:p-12 h-full"><InvestmentSavings /></div>}
+                {activeTab === 'onramp' && <div className="p-4 sm:p-8 lg:p-12 h-full"><GlobalOnramp onBack={() => setActiveTab('wallet')} onSuccess={(amt) => console.log(`Bought ${amt} USDT`)} /></div>}
             </motion.div>
         </div>
         <ChatWidget isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
